@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1002781454438",
+    "project_id": "inshort-2022-project",
+    "storage_bucket": "inshort-2022-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002781454438:android:b2149421b0f63c050a7da7",
+        "android_client_info": {
+          "package_name": "com.project.one.inshorts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002781454438-eiaep863bp5f6titbglp2vbinl5b6f6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf8e1-buM7F4gQtey2Kp13kffqa7wnJ_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002781454438-eiaep863bp5f6titbglp2vbinl5b6f6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
