@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.one.inshorts">
    <application
-        android:label="inshorts"
+        android:label="Firefy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -115,7 +115,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   itemCount: data.length,
                   itemBuilder: (ctx, index) {
                     return Container(
-                      height: 130,
+                      height: 160,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -135,7 +135,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   data[index].title,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 18,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
