@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Article{
 
   String id = "", title = "", des = "", img = "";
+  Timestamp? craeted;
 
 
   Article();
@@ -10,6 +13,8 @@ class Article{
     title = map['title']?.toString() ?? "";
     des = map['des']?.toString() ?? "";
     img = map['img']?.toString() ?? "";
+    craeted=map["created"]??null;
+
   }
 
 

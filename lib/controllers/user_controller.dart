@@ -18,6 +18,19 @@ class UserController {
 
   UserController._();
 
+
+  Future<bool> updateUser(BuildContext context,UserModel userModel)async
+  {
+    try{
+      Map<String, dynamic> data = userModel.tomap();
+      await FirestoreController().firestore.collection("users1").doc(userModel.id).set(data);
+      return true;
+    }
+    catch(e){
+      return false;
+    }
+  }
+
   Future<bool> isUserExist(BuildContext context, String uid) async {
     if(uid.isEmpty) return false;
 
@@ -27,7 +40,7 @@ class UserController {
     bool isUserExist = false;
 
     try {
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot = await FirestoreController().firestore.collection('users').doc(uid).get();
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot = await FirestoreController().firestore.collection('users1').doc(uid).get();
 
       UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
       if(documentSnapshot.exists && (documentSnapshot.data()?.isNotEmpty ?? false)) {
@@ -65,7 +78,7 @@ class UserController {
       //data.remove("ClientId");
       Map<String, dynamic> data = userModel.tomap();
 
-      await FirestoreController().firestore.collection("users").doc(userModel.id).set(data);
+      await FirestoreController().firestore.collection("users1").doc(userModel.id).set(data);
 
       UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
       userProvider.userModel = userModel;

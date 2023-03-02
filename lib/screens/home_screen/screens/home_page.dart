@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:inshorts/models/Article.dart';
+import 'package:inshorts/utils/styles.dart';
+import 'package:timelines/timelines.dart';
 
 import '../../common/components/app_bar.dart';
 
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   getTopics() {
     firestore.collection("admin").doc("data").get().then((value) {
       Map<dynamic, dynamic> data = value.data() as Map;
-      topics = data["topics"];
+      topics = data["topic1"];
       selectedItem = 0;
       getArticles(topics[0]);
       setState(() {});
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
 
     });
-    firestore.collection(topic).get().then((value) {
+    firestore.collection(topic).orderBy("created").get().then((value) {
 
      List<QueryDocumentSnapshot> documentSnapshot= value.docs;
      for(int i=0;i<documentSnapshot.length;i++)
@@ -61,8 +63,8 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           MyAppBar(
-            title: "Fire Safety",
-            color: Colors.white,
+            title: "Socity on Palm",
+            color: Styles.primaryColor,
             backbtnVisible: false,
           ),
           SizedBox(
@@ -102,27 +104,53 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 10,
           ),
-          Expanded(child: PageView.builder(
-                itemCount: data.length,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (ctx, index) {
+          Expanded(
+              child: Timeline.tileBuilder(
+                builder: TimelineTileBuilder.fromStyle(
+                  contentsAlign: ContentsAlign.alternating,
+                  contentsBuilder: (context, index) => Container(
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CachedNetworkImage(imageUrl: data[index].img,fit: BoxFit.fitWidth,),
-                Padding(
-                  padding:  EdgeInsets.only(left: 15,top: 10,right: 15,bottom: 10),
-                  child: Text(data[index].title,style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data[index].title,
+                                maxLines: 4,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                data[index].des,
+                                maxLines: 8,
+                                style:
+                                TextStyle(color: Colors.black, fontSize: 13),
+                              ),
+                              SizedBox(height: 5,),
+                              Text(
+                                data[index].craeted!.toDate().toString(),
+                                maxLines: 1,
+                                style:
+                                TextStyle(color: Colors.black, fontSize: 10),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                      ],
+                    ),
+                  ),
+                  itemCount: data.length,
                 ),
-                Padding(
-                  padding:  EdgeInsets.only(left: 15,top: 10,right: 15,bottom: 10),
-                  child: Text(data[index].des,style: TextStyle(color: Colors.black,fontSize: 13),),
-                )
-              ],
-            );
-
-          }))
+              ))
         ],
       ),
     );

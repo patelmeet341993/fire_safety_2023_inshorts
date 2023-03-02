@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  String id = "", name = "", image = "", mobile = "", email = "";
+  String id = "", name = "", image = "", mobile = "", email = "",type="sop",house="";
   Timestamp? createdTime;
 
   UserModel();
 
-  UserModel.fromMap(Map<String, dynamic> map) {
+  UserModel.fromMap(Map<dynamic, dynamic> map) {
     id = map['id']?.toString() ?? "";
     name = map['name']?.toString() ?? "";
     image = map['image']?.toString() ?? "";
     mobile = map['mobile']?.toString() ?? "";
     email = map['email']?.toString() ?? "";
+    type=map["type"]?.toString()??"";
+    house=map["house"]?.toString()??"";
     createdTime = map['createdTime'];
   }
 
@@ -21,6 +23,8 @@ class UserModel {
     image = map['image']?.toString() ?? "";
     mobile = map['mobile']?.toString() ?? "";
     email = map['email']?.toString() ?? "";
+    house=map["house"]?.toString()??"";
+    type=map["type"]?.toString()??"";
     createdTime = map['createdTime'];
   }
 
@@ -32,6 +36,8 @@ class UserModel {
       "mobile" : mobile,
       "email" : email,
       "createdTime" : createdTime,
+      "type":type,
+      "house":house
     };
   }
 

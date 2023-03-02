@@ -46,7 +46,7 @@ class _AppBarState extends State<MyAppBar> {
                   width: MySize.size50!,
                   child: Icon(
                     Icons.arrow_back_ios_sharp,
-                    color: Styles.onBackground,
+                    color:Colors.white,
                     size: MySize.size20,
                   ),
                 ),
@@ -66,7 +66,7 @@ class _AppBarState extends State<MyAppBar> {
                     widget.title!=null?widget.title:'',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: Styles.onBackground,
+                      color:Colors.white,
                       fontSize: MySize.size18!,
                     ),
                     maxLines: 1,

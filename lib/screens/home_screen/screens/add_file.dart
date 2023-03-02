@@ -24,7 +24,7 @@ class _AddFileState extends State<AddFile> {
   int selectedItem = 0;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<Article> data = [];
-  XFile? file;
+ // XFile? file;
   TextEditingController title = TextEditingController();
   TextEditingController des = TextEditingController();
   bool isUploading = false;
@@ -32,7 +32,7 @@ class _AddFileState extends State<AddFile> {
   getTopics() {
     firestore.collection("admin").doc("data").get().then((value) {
       Map<dynamic, dynamic> data = value.data() as Map;
-      topics = data["topics"];
+      topics = data["topic1"];
 
       selectedItem = 0;
       // getArticles(topics[0]);
@@ -115,23 +115,23 @@ class _AddFileState extends State<AddFile> {
               maxLines: 6,
               maxLength: 400,
             ),
+            // Visibility(
+            //   visible: file == null,
+            //   child: InkWell(
+            //     onTap: () async {
+            //       file = await ImagePicker()
+            //           .pickImage(source: ImageSource.gallery);
+            //       setState(() {});
+            //     },
+            //     child: Container(
+            //       padding: EdgeInsets.all(10),
+            //       color: Colors.grey,
+            //       child: Text("Select File"),
+            //     ),
+            //   ),
+            // ),
             Visibility(
-              visible: file == null,
-              child: InkWell(
-                onTap: () async {
-                  file = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
-                  setState(() {});
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey,
-                  child: Text("Select File"),
-                ),
-              ),
-            ),
-            Visibility(
-              visible: file != null && !isUploading,
+              visible: !isUploading,
               child: InkWell(
                 onTap: () async {
                   isUploading = true;
@@ -142,25 +142,26 @@ class _AddFileState extends State<AddFile> {
                   if (strtitle.isEmpty || strdes.isEmpty) return;
 
                   try {
-                    Reference ref = FirebaseStorage.instance
-                        .ref()
-                        .child('images')
-                        .child('/${file!.name}');
+                    // Reference ref = FirebaseStorage.instance
+                    //     .ref()
+                    //     .child('images')
+                    //     .child('/${file!.name}');
+                    //
+                    // TaskSnapshot task = await ref.putFile(io.File(file!.path));
+                    // String url = await task.ref.getDownloadURL();
 
-                    TaskSnapshot task = await ref.putFile(io.File(file!.path));
-                    String url = await task.ref.getDownloadURL();
-
-                    Map<String, String> data = HashMap();
-                    data["img"] = url;
+                    Map<String, dynamic> data = HashMap();
+                    data["img"] = "";
                     data["title"] = strtitle;
                     data["des"] = strdes;
+                    data["created"]=FieldValue.serverTimestamp();
 
                     firestore
                         .collection(topics[selectedItem])
                         .doc()
                         .set(data)
                         .then((value) {
-                      file = null;
+
                       title.text = "";
                       des.text = "";
                       setState(() {

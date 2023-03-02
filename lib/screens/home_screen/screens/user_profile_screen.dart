@@ -10,6 +10,9 @@ import 'package:inshorts/utils/my_print.dart';
 import 'package:inshorts/utils/styles.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/user_controller.dart';
+import '../../../models/user_model.dart';
+
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
 
@@ -19,6 +22,10 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   bool isLoading = false;
+TextEditingController editingController=TextEditingController();
+
+
+
 
   Future<void> logout() async {
     MyPrint.printOnConsole("logout");
@@ -48,6 +55,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       isLoading = false;
     });
   }
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 3),(){
+      editingController.text=  Provider.of<UserProvider>(context,).userModel!.name??"";
+      setState(() {
+
+      });
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +85,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     getProfileDetails(),
+
                     Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -112,12 +133,41 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           Text(userProvider.userModel?.name ?? "", style: const TextStyle(color: Colors.black),),
           Visibility(
+            visible: (userProvider.userModel?.house ?? "").isNotEmpty,
+            child: Text("House : ${userProvider.userModel?.house}"),
+          ),
+          Visibility(
             visible: (userProvider.userModel?.email ?? "").isNotEmpty,
             child: Text(userProvider.userModel?.email ?? "", style: const TextStyle(color: Colors.black),),
           ),
           Visibility(
             visible: (userProvider.userModel?.mobile ?? "").isNotEmpty,
             child: Text(userProvider.userModel?.mobile ?? ""),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller:editingController,
+                  decoration: InputDecoration(
+                      hintText: "Update Name",
+                    suffix: InkWell(
+                        onTap: ()async{
+
+                           UserModel userModel= Provider.of<UserProvider>(context,listen: false).userModel!;
+                           userModel.name=editingController.text;
+
+                            bool uopdat=await UserController().updateUser(context, userModel);
+                            print("update $uopdat");
+
+                            Provider.of<UserProvider>(context,listen: false).userModel=userModel;
+
+                        },
+                        child: Icon(Icons.update)),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
